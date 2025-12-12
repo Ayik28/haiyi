@@ -5,7 +5,7 @@ function grantAccess() {
         document.getElementById("layer1").style.opacity = 0;
         setTimeout(() => {
             document.getElementById("layer1").style.display = "none";
-            document.getElementById("layer2").style.display = "block";
+            document.getElementById("layer2").style.display = "flex";
             startGame();
         }, 700);
     }, 900);
@@ -20,25 +20,30 @@ function startGame() {
     const canvas = document.getElementById("gameCanvas");
     const ctx = canvas.getContext("2d");
 
-    canvas.width = 500;
-    canvas.height = 700;
-
     const playerImg = new Image();
     playerImg.src = "img/player.png";
 
     const enemyImg = new Image();
     enemyImg.src = "img/enemy.png";
 
-    const PLAYER_SCALE = 1.35;
-    const ENEMY_SCALE  = 1.25;
-
-    let ship = { x: 230, y: 620, w: 0, h: 0 };
+    let ship = { x: 0, y: 0, w: 0, h: 0 };
     let bullets = [];
     let enemies = [];
     let stars = [];
     let keys = {};
     let shootPressed = false;
     let score = 0;
+
+    /* Resize canvas responsif */
+    function resizeCanvas() {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    const PLAYER_SCALE_BASE = 1.35;
+    const ENEMY_SCALE_BASE = 1.25;
 
     /* Starfield */
     for (let i = 0; i < 120; i++) {
@@ -66,7 +71,13 @@ function startGame() {
     /* Enemy spawn */
     setInterval(() => {
         if (enemyImg.complete) {
-            enemies.push({ x: Math.random() * (canvas.width - enemyImg.width * ENEMY_SCALE), y: -80, w: enemyImg.width * ENEMY_SCALE, h: enemyImg.height * ENEMY_SCALE, speed: 2 + Math.random() * 2 });
+            enemies.push({
+                x: Math.random() * (canvas.width - enemyImg.width * ENEMY_SCALE_BASE),
+                y: -80,
+                w: enemyImg.width * ENEMY_SCALE_BASE,
+                h: enemyImg.height * ENEMY_SCALE_BASE,
+                speed: 2 + Math.random() * 2
+            });
         }
     }, 900);
 
@@ -102,19 +113,29 @@ function startGame() {
 
     /* GAME LOOP */
     function update() {
+        /* Player size */
         if (playerImg.complete && ship.w === 0) {
-            ship.w = playerImg.width * PLAYER_SCALE;
-            ship.h = playerImg.height * PLAYER_SCALE;
+            const scale = canvas.width / 500;
+            ship.w = playerImg.width * PLAYER_SCALE_BASE * scale;
+            ship.h = playerImg.height * PLAYER_SCALE_BASE * scale;
+            ship.x = canvas.width/2 - ship.w/2;
+            ship.y = canvas.height - ship.h - 10;
         }
 
+        /* Stars */
         stars.forEach(s => { s.y += s.speed; if (s.y > canvas.height) { s.y = -5; s.x = Math.random() * canvas.width; } });
 
+        /* Player movement */
         if (keys["ArrowLeft"] && ship.x > 0) ship.x -= 5;
         if (keys["ArrowRight"] && ship.x < canvas.width - ship.w) ship.x += 5;
 
+        /* Bullets */
         bullets.forEach(b => b.y -= 8);
+
+        /* Enemies */
         enemies.forEach(e => e.y += e.speed);
 
+        /* Collision */
         bullets.forEach((b, bi) => {
             enemies.forEach((e, ei) => {
                 if (b.x < e.x + e.w && b.x + b.w > e.x && b.y < e.y + e.h && b.y + b.h > e.y) {
@@ -134,7 +155,8 @@ function startGame() {
         ctx.fillStyle = "#0ff";
         stars.forEach(s => ctx.fillRect(s.x,s.y,2,2));
         ctx.drawImage(playerImg, ship.x, ship.y, ship.w, ship.h);
-        ctx.font = "26px Arial"; ctx.fillStyle = "#ff2ec6";
+        ctx.font = `${canvas.width/20}px Arial`;
+        ctx.fillStyle = "#ff2ec6";
         bullets.forEach(b => ctx.fillText("💗", b.x, b.y));
         enemies.forEach(e => ctx.drawImage(enemyImg, e.x, e.y, e.w, e.h));
     }
