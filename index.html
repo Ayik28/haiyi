@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Cyberpunk Space Shooter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= LAYER VERIFIKASI ================= -->
+<div id="layer1">
+    <h1 class="neon title">SELAMAT DATANG!</h1>
+    <h2 class="neon">Apakah kamu khe haiyi?</h2>
+
+    <div class="btn-group">
+        <button class="btn" onclick="grantAccess()">YA</button>
+        <button class="btn" onclick="denyAccess()">TIDAK</button>
+    </div>
+
+    <p id="msg" class="neon msg"></p>
+</div>
+
+<!-- ====================== GAME LAYER ====================== -->
+<div id="layer2">
+
+    <div id="scoreDisplay" class="neon">Score: 0</div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Kontrol Mobile -->
+    <div id="mobileControls">
+        <button id="leftBtn" class="ctrl-btn">◀</button>
+        <button id="rightBtn" class="ctrl-btn">▶</button>
+        <button id="shootBtn" class="ctrl-btn shoot">FIRE</button>
+    </div>
+
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
