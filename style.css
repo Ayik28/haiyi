@@ -40,6 +40,9 @@ body {
     display: none;
     position: relative;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 /* Score */
@@ -55,26 +58,26 @@ body {
 
 /* Canvas responsif */
 #gameCanvas {
-    width: 100%;
-    height: auto;
+    width: 90%;
     max-width: 500px;
+    aspect-ratio: 500/700;
     display: block;
     margin: 0 auto;
+    background: black;
 }
 
 /* Controls */
 #controls {
-    margin-top: 10px;
     display: flex;
     justify-content: space-around;
+    width: 90%;
     max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 10px;
 }
 
 #controls button {
-    width: 18vw;
-    height: 18vw;
+    width: 22%;
+    aspect-ratio: 1 / 1;
     font-size: 5vw;
     border: none;
     border-radius: 8px;
