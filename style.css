@@ -1,150 +1,114 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
+/* ===== GLOBAL ===== */
 body {
     margin: 0;
+    padding: 0;
     background: black;
     font-family: 'Orbitron', sans-serif;
-    overflow: hidden;
-}
-
-/* ===== NEON ===== */
-.neon {
     color: #0ff;
-    text-shadow: 
-        0 0 5px #0ff,
-        0 0 15px #0ff,
-        0 0 25px #0ff;
+    overflow-x: hidden;
 }
-.title { font-size: 34px; }
-.msg { color: #f0f; }
 
-/* ===== LAYER 1 ===== */
+/* ===== Layer 1 ===== */
 #layer1 {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle, #00151a, #000);
+    position: fixed;
+    top:0; left:0; right:0; bottom:0;
+    background-color: rgba(0,0,0,0.95);
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 35px;
+    align-items: center;
     z-index: 10;
-    transition: opacity .7s;
+    transition: opacity 0.7s;
 }
 
-.btn-group {
-    display: flex;
-    gap: 18px;
+.confirmBox {
+    text-align: center;
 }
 
-.btn {
-    padding: 12px 25px;
-    font-size: 20px;
-    background: transparent;
-    border: 2px solid #0ff;
-    color: #0ff;
-    cursor: pointer;
-    transition: .3s;
-}
-.btn:hover {
-    background: #0ff;
+.confirmBox button {
+    margin: 10px;
+    padding: 12px 24px;
+    font-size: 1.2em;
+    background-color: #0ff;
     color: black;
-    box-shadow: 0 0 20px #0ff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-/* ===== LAYER 2 ===== */
+/* ===== Layer 2 ===== */
 #layer2 {
     display: none;
-    position: absolute;
-    inset: 0;
-    background: black;
+    position: relative;
+    text-align: center;
 }
 
-canvas {
-    display: block;
-    margin: auto;
-    width: min(90vw, 500px);
-    height: auto;
-    box-shadow: 0 0 20px #0ff;
-    background: black;
-}
-
-/* ===== SCORE ===== */
+/* Score */
 #scoreDisplay {
     position: absolute;
     top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 24px;
+    left: 10px;
+    font-size: 1.5em;
     z-index: 5;
+    color: #ff2ec6;
+    text-shadow: 0 0 10px #ff2ec6;
 }
 
-/* ===== HIT TEXT ("AWWW!") ===== */
-.hitText {
-    position: absolute;
-    color: #ff008c;
-    font-size: 22px;
-    font-family: Orbitron;
-    text-shadow: 0 0 8px #ff008c;
-    animation: fadeOut 0.6s ease-out forwards;
-}
-
-@keyframes fadeOut {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -80%) scale(1.4); }
-}
-
-/* ===== MOBILE CONTROLS ===== */
-#mobileControls {
-    position: absolute;
-    bottom: 15px;
+/* Canvas responsif */
+#gameCanvas {
     width: 100%;
+    height: auto;
+    max-width: 500px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Controls */
+#controls {
+    margin-top: 10px;
     display: flex;
     justify-content: space-around;
-    pointer-events: auto;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.ctrl-btn {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: rgba(0,255,255,0.12);
-    border: 2px solid #0ff;
-    color: #0ff;
-    font-size: 28px;
-    box-shadow: 0 0 8px #0ff;
+#controls button {
+    width: 18vw;
+    height: 18vw;
+    font-size: 5vw;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff2ec6;
+    color: white;
+    cursor: pointer;
 }
 
-.shoot {
-    width: 95px;
-    height: 95px;
-    font-size: 20px;
+/* Hit text efek */
+.hitText {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    color: #ff2ec6;
+    font-size: 24px;
+    font-family: Orbitron;
+    text-shadow: 0 0 8px #ff2ec6, 0 0 20px #ff2ec6;
+    pointer-events: none;
+    animation: hitAnim 0.6s ease-out forwards;
 }
 
-/* Responsif */
-@media (max-width: 480px) {
-    .ctrl-btn { 
-        width: 60px; 
-        height: 60px;
-        font-size: 24px;
-    }
-    .shoot {
-        width: 80px;
-        height: 80px;
-    }
+@keyframes hitAnim {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+    20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(1.3); }
 }
 
-
+/* Reward text efek */
 .rewardText {
     position: absolute;
     transform: translate(-50%, -50%);
     color: #ff29ff;
     font-size: 40px;
     font-family: Orbitron;
-    text-shadow: 
-        0 0 8px #ff29ff,
-        0 0 20px #ff29ff,
-        0 0 40px #ff00d4;
+    text-shadow: 0 0 8px #ff29ff, 0 0 20px #ff29ff, 0 0 40px #ff00d4;
     animation: rewardAnim 1.3s ease-out forwards;
     pointer-events: none;
 }
