@@ -2,31 +2,38 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cyberpunk Space Shooter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ===== Layer 1: Konfirmasi Identitas ===== -->
+<!-- ================= LAYER VERIFIKASI ================= -->
 <div id="layer1">
-    <div class="confirmBox">
-        <p>Apakah kamu khe haiyi?</p>
-        <button onclick="grantAccess()">Ya</button>
-        <button onclick="denyAccess()">Tidak</button>
-        <p id="msg"></p>
+    <h1 class="neon title">SELAMAT DATANG!</h1>
+    <h2 class="neon">Apakah kamu khe haiyi?</h2>
+
+    <div class="btn-group">
+        <button class="btn" onclick="grantAccess()">YA</button>
+        <button class="btn" onclick="denyAccess()">TIDAK</button>
     </div>
+
+    <p id="msg" class="neon msg"></p>
 </div>
 
-<!-- ===== Layer 2: Game ===== -->
+<!-- ====================== GAME LAYER ====================== -->
 <div id="layer2">
-    <div id="scoreDisplay">Score: 0</div>
+
+    <div id="scoreDisplay" class="neon">Score: 0</div>
+
     <canvas id="gameCanvas"></canvas>
-    <div id="controls">
-        <button id="leftBtn">◀</button>
-        <button id="shootBtn">💗</button>
-        <button id="rightBtn">▶</button>
+
+    <!-- Kontrol Mobile -->
+    <div id="mobileControls">
+        <button id="leftBtn" class="ctrl-btn">◀</button>
+        <button id="rightBtn" class="ctrl-btn">▶</button>
+        <button id="shootBtn" class="ctrl-btn shoot">FIRE</button>
     </div>
+
 </div>
 
 <script src="game.js"></script>
